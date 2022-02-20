@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cubit/misc/colors.dart';
 import 'package:flutter_cubit/widgets/app_large_text.dart';
+import 'package:flutter_cubit/widgets/app_text.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,6 +11,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  var images = {
+    "balloning.png": "Balloning",
+    "hiking.png": "Hiking",
+    "kayaking.png": "Kayaking",
+    "snorkling.png": "Snorkling"
+  };
+
   @override
   Widget build(BuildContext context) {
     TabController _tabController = TabController(length: 3, vsync: this);
@@ -20,7 +28,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         children: [
           //MENU TEXT
           Container(
-            padding: const EdgeInsets.only(top: 70, left: 20),
+            padding: const EdgeInsets.only(top: 50, left: 20),
             child: Row(
               children: [
                 const Icon(Icons.menu, size: 30, color: Colors.black54),
@@ -37,15 +45,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ],
             ),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 20),
           //DISCOVER TEXT
           Container(
             margin: const EdgeInsets.only(left: 20),
             child: const AppLargeText(text: "Discover"),
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 15),
           //TAB BAR
           Container(
+            margin: const EdgeInsets.only(left: 10),
             child: Align(
               alignment: Alignment.centerLeft,
               child: TabBar(
@@ -65,18 +74,85 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             ),
           ),
-          const SizedBox(height: 20),
-          SizedBox(
-            height: 300,
+          const SizedBox(height: 5),
+          //TAB BAR VIEW
+          Container(
+            padding: const EdgeInsets.only(left: 20),
+            height: 270,
             width: double.maxFinite,
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                Text("Hi"),
-                Text("There"),
-                Text("Bye"),
+              children: [
+                ListView.builder(
+                  itemCount: 3,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                        margin: const EdgeInsets.only(right: 15, top: 10),
+                        width: 200,
+                        height: 300,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                            image: const DecorationImage(
+                              image: AssetImage("img/mountain.jpeg"),
+                              fit: BoxFit.cover,
+                            )));
+                  },
+                ),
+                const Text("There"),
+                const Text("Bye"),
               ],
             ),
+          ),
+          const SizedBox(height: 20),
+          //EXPLORE MORE TEXT
+          Container(
+            margin: const EdgeInsets.only(left: 20, right: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                AppLargeText(text: "Explore more", textSize: 22),
+                AppText(text: "See all", color: AppColors.textColor1),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          Container(
+            height: 120,
+            width: double.maxFinite,
+            margin: const EdgeInsets.only(left: 20),
+            child: ListView.builder(
+                itemCount: 4,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (_, index) {
+                  return Container(
+                    margin: const EdgeInsets.only(right: 30),
+                    child: Column(
+                      children: [
+                        Container(
+                            //margin: const EdgeInsets.only(right: 50),
+                            width: 80,
+                            height: 80,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white,
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      "img/" + images.keys.elementAt(index)),
+                                  fit: BoxFit.cover,
+                                ))),
+                        SizedBox(height: 5),
+                        Container(
+                          child: AppText(
+                            text: images.values.elementAt(index),
+                            color: AppColors.textColor2,
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                }),
           )
         ],
       ),
