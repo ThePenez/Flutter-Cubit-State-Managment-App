@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cubit/misc/colors.dart';
 import 'package:flutter_cubit/widgets/app_large_text.dart';
 import 'package:flutter_cubit/widgets/app_text.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+class HomePage extends HookWidget {
   var images = {
     "balloning.png": "Balloning",
     "hiking.png": "Hiking",
@@ -20,7 +14,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: 3, vsync: this);
+    final tabController = useTabController(initialLength: 3);
+
+    useEffect(() {
+      tabController.addListener(() {
+        debugPrint('Selected index: ${tabController.index}');
+      });
+    }, []);
 
     return Scaffold(
       body: Column(
@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               alignment: Alignment.centerLeft,
               child: TabBar(
                 labelPadding: const EdgeInsets.only(left: 20, right: 20),
-                controller: _tabController,
+                controller: tabController,
                 labelColor: Colors.black,
                 unselectedLabelColor: Colors.grey,
                 isScrollable: true,
@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             height: 270,
             width: double.maxFinite,
             child: TabBarView(
-              controller: _tabController,
+              controller: tabController,
               children: [
                 ListView.builder(
                   itemCount: 3,
