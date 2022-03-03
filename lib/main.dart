@@ -15,16 +15,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: BlocProvider<AppCubits>(
+        create: (context) => AppCubits(
+          data: DataServices(),
         ),
-        home: BlocProvider<AppCubits>(
-          create: (context) => AppCubits(
-            data: DataServices(),
-          ),
-          child: AppCubitLogics(),
-        ));
+        child: const AppCubitLogics(),
+      ),
+    );
   }
 }

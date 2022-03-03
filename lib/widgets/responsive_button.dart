@@ -6,9 +6,11 @@ class ResponsiveButton extends StatelessWidget {
   final bool isResponsive;
   final double? width;
 
-  const ResponsiveButton(
-      {Key? key, this.width = 120, this.isResponsive = false})
-      : super(key: key);
+  const ResponsiveButton({
+    Key? key,
+    this.width = 120,
+    this.isResponsive = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,19 +19,24 @@ class ResponsiveButton extends StatelessWidget {
         width: isResponsive == true ? double.maxFinite : width,
         height: 60,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: AppColors.mainColor),
+          borderRadius: BorderRadius.circular(10),
+          color: AppColors.mainColor,
+        ),
         child: Row(
           mainAxisAlignment: isResponsive == true
               ? MainAxisAlignment.spaceBetween
               : MainAxisAlignment.center,
           children: [
-            isResponsive == true
-                ? Container(
-                    margin: const EdgeInsets.only(left: 20),
-                    child: const AppText(
-                        text: "Book Trip Now", color: Colors.white))
-                : Container(),
+            if (isResponsive == true)
+              Container(
+                margin: const EdgeInsets.only(left: 20),
+                child: const AppText(
+                  text: "Book Trip Now",
+                  color: Colors.white,
+                ),
+              )
+            else
+              Container(),
             Image.asset("img/button-one.png")
           ],
         ),

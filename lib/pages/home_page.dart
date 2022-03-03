@@ -19,11 +19,14 @@ class HomePage extends HookWidget {
   Widget build(BuildContext context) {
     final tabController = useTabController(initialLength: 3);
 
-    useEffect(() {
-      tabController.addListener(() {
-        debugPrint('Selected index: ${tabController.index}');
-      });
-    }, []);
+    useEffect(
+      () {
+        tabController.addListener(() {
+          debugPrint('Selected index: ${tabController.index}');
+        });
+      },
+      [],
+    );
 
     return Scaffold(
       body: BlocBuilder<AppCubits, CubitStates>(
@@ -72,7 +75,9 @@ class HomePage extends HookWidget {
                       isScrollable: true,
                       indicatorSize: TabBarIndicatorSize.label,
                       indicator: CircleTabIndicator(
-                          color: AppColors.mainColor, radius: 4),
+                        color: AppColors.mainColor,
+                        radius: 4,
+                      ),
                       tabs: const [
                         Tab(text: "Places"),
                         Tab(text: "Inspiration"),
@@ -100,19 +105,20 @@ class HomePage extends HookWidget {
                                   .detailPage(info[index]);
                             },
                             child: Container(
-                                margin:
-                                    const EdgeInsets.only(right: 15, top: 10),
-                                width: 200,
-                                height: 300,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.white,
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                          "http://localhost:3000" +
-                                              info[index].img),
-                                      fit: BoxFit.cover,
-                                    ))),
+                              margin: const EdgeInsets.only(right: 15, top: 10),
+                              width: 200,
+                              height: 300,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white,
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                    "http://localhost:3000" + info[index].img,
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
                           );
                         },
                       ),
@@ -139,36 +145,40 @@ class HomePage extends HookWidget {
                   width: double.maxFinite,
                   margin: const EdgeInsets.only(left: 20),
                   child: ListView.builder(
-                      itemCount: 4,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (_, index) {
-                        return Container(
-                          margin: const EdgeInsets.only(right: 30),
-                          child: Column(
-                            children: [
-                              Container(
-                                  //margin: const EdgeInsets.only(right: 50),
-                                  width: 80,
-                                  height: 80,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: Colors.white,
-                                      image: DecorationImage(
-                                        image: AssetImage("img/" +
-                                            images.keys.elementAt(index)),
-                                        fit: BoxFit.cover,
-                                      ))),
-                              SizedBox(height: 5),
-                              Container(
-                                child: AppText(
-                                  text: images.values.elementAt(index),
-                                  color: AppColors.textColor2,
+                    itemCount: 4,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (_, index) {
+                      return Container(
+                        margin: const EdgeInsets.only(right: 30),
+                        child: Column(
+                          children: [
+                            Container(
+                              //margin: const EdgeInsets.only(right: 50),
+                              width: 80,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white,
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    "img/" + images.keys.elementAt(index),
+                                  ),
+                                  fit: BoxFit.cover,
                                 ),
-                              )
-                            ],
-                          ),
-                        );
-                      }),
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Container(
+                              child: AppText(
+                                text: images.values.elementAt(index),
+                                color: AppColors.textColor2,
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 )
               ],
             );
@@ -206,8 +216,9 @@ class _CirclePainter extends BoxPainter {
     _paint.isAntiAlias = true;
 
     final Offset circleOffset = Offset(
-        configuration.size!.width / 2 - radius / 2,
-        configuration.size!.height - radius);
+      configuration.size!.width / 2 - radius / 2,
+      configuration.size!.height - radius,
+    );
 
     canvas.drawCircle(offset + circleOffset, radius, _paint);
   }
